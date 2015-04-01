@@ -24,6 +24,21 @@
       }, this);
     },
 
+    columns: function () {
+        return _.zip.apply(null, this.rows());
+    },
+
+    majorDiags : function () {
+        var grid = this.rows();
+        var results = [];
+
+
+
+      return results;
+    }.
+
+    // TODO: define methods here for majorDiags and minorDiags
+
     togglePiece: function(rowIndex, colIndex) {
       this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
       this.trigger('change');
@@ -78,32 +93,78 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
+    /*
+    
+      sum elements
+      return sum > 1
+    =======
+    for each row
+      test if row has conflict
+      if conflict
+        return true
+    return false
+
+    */
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+     var row = this.rows()[rowIndex];
+     var sum =  _.reduce (row, function (a, b) {
+           return a + b;
+      });
+      return sum > 1; 
     },
 
-    // test if any rows on this board contain conflicts
+    // test if any rows on this board contain conflict
+
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      
+      for (var i =0; i < this.rows().length; i++) {
+        if (this.hasRowConflictAt (i)){
+          return true;
+        }
+      }
+      return false; 
     },
-
-
 
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+
+      var column = this.columns()[colIndex];
+      var sum =  _.reduce (column, function (a, b) {
+           return a + b;
+      });
+      return sum > 1; 
+     
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+     for (var i =0; i < this.columns().length; i++) {
+        if (this.hasColConflictAt (i)){
+          return true;
+        }
+      }
+      return false; 
     },
 
 
+    /*
+    Major Pseudocode
 
+    // for each diagonal
+    // if sum > 1 --> collision
+    // -2, -1,  0,  1,  2, 
+    // 20, 10, 00, 01, 02,
+
+       [1, 0, 0, 0],
+       [0, 0, 0, 0],
+       [1, 0, 0, 0],
+       [0, 0, 0, 0]
+
+
+    */
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
@@ -117,6 +178,20 @@
       return false; // fixme
     },
 
+    /*
+    Minor Pseudocode
+
+    // for each diagonal
+    // if sum > 1 --> collision
+    // 10, 20, 30, 31, 32
+
+       [1, 0, 0, 0],
+       [0, 0, 0, 0],
+       [1, 0, 0, 0],
+       [0, 0, 0, 0]
+
+
+    */
 
 
     // Minor Diagonals - go from top-right to bottom-left

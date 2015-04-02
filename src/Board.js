@@ -28,9 +28,9 @@
         return _.zip.apply(null, this.rows());
     },
 
-    majorDiags : function () {
-      var grid = this.rows();
-      var n = this.rows().length;
+    majorDiags : function (inputGrid) {
+      var grid = inputGrid || this.rows();
+      var n = grid.length;
       var results = [];
       for(var i = n - 2; i >= 0; i--){ // iterating over every diag starting in col 0
         var diag = [];
@@ -50,6 +50,31 @@
       }
       return results;
     },
+
+    minorDiags : function () {
+
+      var grid = [];
+
+      _.each (this.rows(), function (value) {
+        var row = value.slice();
+        grid.push (row.reverse());
+
+      });
+      console.log (grid);
+      //debugger;
+      return this.majorDiags(grid);
+    },
+
+
+      /*
+      a b c       c b a
+      d e f       f e d
+      g h i       i h g
+
+
+
+      */
+
       /*
       for loop for each diagonal
       [n-2, 0], [n-1, 1]
@@ -83,6 +108,7 @@
 
 
     // TODO: define methods here for majorDiags and minorDiags
+
 
     togglePiece: function(rowIndex, colIndex) {
       this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
@@ -253,12 +279,21 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var diag = this.minorDiags()[minorDiagonalColumnIndexAtFirstRow];
+      var sum =  _.reduce (diag, function (a, b) {
+        return a + b;
+      });
+      return sum > 1; 
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      for (var i =0; i < this.minorDiags().length; i++) {
+      if (this.hasMinorDiagonalConflictAt(i)){
+          return true;
+        }
+      }
+      return false; 
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/

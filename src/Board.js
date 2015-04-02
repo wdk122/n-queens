@@ -29,13 +29,58 @@
     },
 
     majorDiags : function () {
-        var grid = this.rows();
-        var results = [];
-
-
-
+      var grid = this.rows();
+      var n = this.rows().length;
+      var results = [];
+      for(var i = n - 2; i >= 0; i--){ // iterating over every diag starting in col 0
+        var diag = [];
+        // keep going until end of diagonal
+        for (var j = 0; i + j < n; j++) {
+          diag.push(grid[i+ j][j]);
+        }
+        results.push(diag);
+      }
+      // iterate over every diag starting in r0c1
+      for(var i = 1; i < n - 1; i++){
+        var diag = [];
+        for (var j = 0; i + j < n; j++) {
+          diag.push(grid[j][i + j]);
+        }
+        results.push(diag);
+      }
       return results;
-    }.
+    },
+      /*
+      for loop for each diagonal
+      [n-2, 0], [n-1, 1]
+      [n-3, 0], [n-1, 1]
+
+      rc
+               30 41
+            20 31 42
+         10 21 32 43
+      00 11 22 33 44
+      01 12 23 34 
+      02 13 24
+      03 14   
+
+      [0, 0, 0, 0, 0],
+      [1, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [1, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+
+      (0,0) (0,1) (0,2)
+
+
+      for (var i = 0, i < n - 2; i ++){
+        array.push (grid (i, )
+
+      }
+
+      */  
+
+
 
     // TODO: define methods here for majorDiags and minorDiags
 
@@ -45,11 +90,11 @@
     },
 
     _getFirstRowColumnIndexForMajorDiagonalOn: function(rowIndex, colIndex) {
-      return colIndex - rowIndex;
+      return colIndex - rowIndex + this.rows().length - 2;
     },
 
     _getFirstRowColumnIndexForMinorDiagonalOn: function(rowIndex, colIndex) {
-      return colIndex + rowIndex;
+      return colIndex + rowIndex - 1;
     },
 
     hasAnyRooksConflicts: function() {
@@ -170,12 +215,21 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var diag = this.majorDiags()[majorDiagonalColumnIndexAtFirstRow];
+      var sum =  _.reduce (diag, function (a, b) {
+        return a + b;
+      });
+      return sum > 1; 
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      for (var i =0; i < this.majorDiags().length; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)){
+          return true;
+        }
+      }
+      return false; 
     },
 
     /*

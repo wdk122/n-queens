@@ -25,7 +25,9 @@
     },
 
     columns: function () {
+      if (this.get("n") > 0) {
         return _.zip.apply(null, this.rows());
+      }
     },
 
     majorDiags : function (inputGrid) {
@@ -187,6 +189,9 @@
     // test if any rows on this board contain conflict
 
     hasAnyRowConflicts: function() {
+      if (this.get("n") === 0) {
+        return false;
+      }
       
       for (var i =0; i < this.rows().length; i++) {
         if (this.hasRowConflictAt (i)){
@@ -201,7 +206,7 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-
+      
       var column = this.columns()[colIndex];
       var sum =  _.reduce (column, function (a, b) {
            return a + b;
@@ -212,6 +217,11 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+
+      if (this.get("n") === 0) {
+        return false;
+      }
+
      for (var i =0; i < this.columns().length; i++) {
         if (this.hasColConflictAt (i)){
           return true;

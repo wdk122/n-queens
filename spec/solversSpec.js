@@ -39,6 +39,7 @@ describe('solvers', function() {
     it('finds a valid solution for n of 0-7', function() {
       // Skip 2 and 3 because they have no solution.
       [0, 1, 4, 5, 6, 7, 8].map(function(n) {
+      // [4].map(function(n) {  
         var solutionBoard = new Board(findNQueensSolution(n));
         var numPieces = _.reduce(solutionBoard.rows(), function(memo, row) {
           return memo + _.reduce(row, function(memo, col) {
@@ -71,6 +72,7 @@ describe('solvers', function() {
 
     it('finds the number of valid solutions for n of 0-8', function() {
       _.range(0, 9).map(function(n) {
+      // _.range(3, 4).map(function(n) {
         var solutionCount = countNQueensSolutions(n);
         var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92][n];
 

@@ -60,7 +60,7 @@
         grid.push (row.reverse());
 
       });
-      console.log (grid);
+      //console.log (grid);
       //debugger;
       return this.majorDiags(grid);
     },
@@ -241,6 +241,11 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      var length = this.rows().length;
+      if(majorDiagonalColumnIndexAtFirstRow === -1 ||
+         majorDiagonalColumnIndexAtFirstRow === 2 * length - 3){
+        return false;        
+      }
       var diag = this.majorDiags()[majorDiagonalColumnIndexAtFirstRow];
       var sum =  _.reduce (diag, function (a, b) {
         return a + b;
@@ -279,6 +284,11 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      var length = this.rows().length;
+      if(minorDiagonalColumnIndexAtFirstRow === -1 ||
+         minorDiagonalColumnIndexAtFirstRow === 2 * length - 3){
+        return false;        
+      }
       var diag = this.minorDiags()[minorDiagonalColumnIndexAtFirstRow];
       var sum =  _.reduce (diag, function (a, b) {
         return a + b;
